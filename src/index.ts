@@ -1,4 +1,3 @@
-import { catchError, of, switchMap, tap } from 'rxjs'
 import Car from './oop/car.js'
 import { Action, ParkingLot } from './parkinglot.js'
 
@@ -12,60 +11,77 @@ export const mobilList: Car[] = [mobil1,mobil2,mobil3,mobil4,mobil5]
 
 const parkingLot = new ParkingLot(3)
 
-parkingLot.parkingLot().pipe(
-    tap((action) => {
-        action.park(mobil1).pipe(
-            catchError((error) => of(error)),
-            tap((output) => console.log(output)),
+async function actions(): Promise<void> {
+    try {
+        const action = await parkingLot.parkingLot()
+        try {
+            console.log(await action.park(mobil1))
+        } catch (error) {
+            console.log(error)
+        }
+        try {
+            console.log(await action.check())
+        } catch (error) {
+            console.log(error)
+        }
+        try {
+            console.log(await action.park(mobil2))
+        } catch (error) {
+            console.log(error)
+        }
+        try {
+            console.log(await action.leave('B2021'))
+        } catch (error) {
+            console.log(error)
+        }
+        try {
+            console.log(await action.park(mobil3))
+        } catch (error) {
+            console.log(error)
+        }
+        try {
+            console.log(await action.park(mobil4))
+        } catch (error) {
+            console.log(error)
+        }
+        try {
+            console.log(await action.leave('B2019'))
+        } catch (error) {
+            console.log(error)
+        }
+        try {
+            console.log(await action.park(mobil5))
+        } catch (error) {
+            console.log(error)
+        }
+        try {
+            console.log(await action.park(mobil1))
+        } catch (error) {
+            console.log(error)
+        }
+        try {
+            console.log(await action.leave('B2021'))
+        } catch (error) {
+            console.log(error)
+        }
+        try {
+            console.log(await action.check())
+        } catch (error) {
+            console.log(error)
+        }
+        try {
+            console.log(await action.leave('BE001'))
+        } catch (error) {
+            console.log(error)
+        }
+        try {
+            console.log(await action.check())
+        } catch (error) {
+            console.log(error)
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
 
-            switchMap(() => action.check()),
-            catchError((error) => of(error)),
-            tap((output) => console.log(output)),
-
-            switchMap(() => action.park(mobil2)),
-            catchError((error) => of(error)),
-            tap((output) => console.log(output)),
-
-            switchMap(() => action.leave(`B2021`)),
-            catchError((error) => of(error)),
-            tap((output) => console.log(output)),
-
-            switchMap(() => action.park(mobil3)),
-            catchError((error) => of(error)),
-            tap((output) => console.log(output)),
-
-            switchMap(() => action.park(mobil4)),
-            catchError((error) => of(error)),
-            tap((output) => console.log(output)),
-
-            switchMap(() => action.leave(`B2019`)),
-            catchError((error) => of(error)),
-            tap((output) => console.log(output)),
-
-            switchMap(() => action.park(mobil5)),
-            catchError((error) => of(error)),
-            tap((output) => console.log(output)),
-
-            switchMap(() => action.park(mobil1)),
-            catchError((error) => of(error)),
-            tap((output) => console.log(output)),
-
-            switchMap(() => action.leave(`B2021`)),
-            catchError((error) => of(error)),
-            tap((output) => console.log(output)),
-
-            switchMap(() => action.check()),
-            catchError((error) => of(error)),
-            tap((output) => console.log(output)),
-
-            switchMap(() => action.leave(`BE001`)),
-            catchError((error) => of(error)),
-            tap((output) => console.log(output)),
-
-            switchMap(() => action.check()),
-            catchError((error) => of(error)),
-            tap((output) => console.log(output)),
-
-        ).subscribe()
-    })
-).subscribe()
+actions()

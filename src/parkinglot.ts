@@ -1,4 +1,3 @@
-import { Observable, Observer } from "rxjs"
 import { mobilList } from "."
 import Car from "./oop/car"
 import { getCar, getCarByNopol, carIndex } from "./utility"
@@ -18,41 +17,41 @@ export class Action {
         return `{ capacity: ${this.capacity}, remaining: ${this.remaining}, parkedCars: [${this.parkedCars.map((e) => e.mobilVar).join(', ')}] }`
     }
 
-    park(car: Car): Observable<string> {
-        return new Observable((observer: Observer<string>) => {
+    async park(car: Car): Promise<string> {
+        return new Promise((resolve,reject) => {
             setTimeout(() => {
                 if(this.remaining > 0 && !getCar(car,this.parkedCars)) {
                     this.parkedCars.push(car)
                     this.remaining -= 1
-                    observer.next(`Mobil ${car.pemilik} dengan Nopol ${car.nopol} berhasil parkir.`)
+                    resolve(`Mobil ${car.pemilik} dengan Nopol ${car.nopol} berhasil parkir.`)
                 } else if(getCar(car,this.parkedCars)) {
-                    observer.error(`Mobil ${car.pemilik} dengan Nopol ${car.nopol} sudah parkir sebelumnya.`)
+                    reject(`Mobil ${car.pemilik} dengan Nopol ${car.nopol} sudah parkir sebelumnya.`)
                 } else if(this.remaining === 0) {
-                    observer.error(`Mohoh maaf parkir sudah penuh.`)
+                    reject(`Mohoh maaf parkir sudah penuh.`)
                 } 
             }, 3000)
         })
     }
 
-    leave(nopol: string): Observable<string> {
-        return new Observable((observer: Observer<string>) => {
+    async leave(nopol: string): Promise<string> {
+        return new Promise((resolve,reject) => {
             setTimeout(() => {
                 const car: Car = getCarByNopol(nopol,mobilList)
                 if(car && getCar(car,this.parkedCars)) {
                     this.parkedCars.splice(carIndex(car,this.parkedCars),1)
                     this.remaining += 1
-                    observer.next(`Mobil ${car.pemilik} dengan Nopol ${car.nopol} sudah keluar.`)
+                    resolve(`Mobil ${car.pemilik} dengan Nopol ${car.nopol} sudah keluar.`)
                 } else {
-                    observer.error(`Mobil dengan nopol ${nopol} tidak ada.`)
+                    reject(`Mobil dengan nopol ${nopol} tidak ada.`)
                 }
             }, 1500)
         })
     }
 
-    check(): Observable<string> {
-        return new Observable((observer: Observer<string>) => {
+    async check(): Promise<string> {
+        return new Promise((resolve,reject) => {
             setTimeout(() => {
-                observer.next(this.print())
+                resolve(this.print())
             }, 500)
         })
     }
@@ -66,10 +65,10 @@ export class ParkingLot {
         console.log(`Tempat parkir berhasil dibuat dengan kapasitas ${capacity} kendaraan`);
     }
 
-    parkingLot(): Observable<Action> {
-        return new Observable((observer: Observer<Action>) => {
+    async parkingLot(): Promise<Action> {
+        return new Promise((resolve,reject) => {
             setTimeout(() => {
-                observer.next(this.actions)
+                resolve(this.actions)
             }, 5000);
         })
     }
