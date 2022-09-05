@@ -1,0 +1,29 @@
+{
+  "name": "live-code_1",
+  "version": "1.0.0",
+  "description": "livecode1",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "npx tsc",
+    "prewatch": "rimraf dist",
+    "watch": "npx tsc -w",
+    "start": "node dist/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://git.enigmacamp.com/enigma-camp/danamon/danamon-dtt-batch-1/prana-pramudita/frontend/challenges/livecode1.git"
+  },
+  "author": "PRANA",
+  "license": "ISC",
+  "devDependencies": {
+    "ts-node": "^10.9.1",
+    "tslib": "^2.4.0",
+    "typescript": "^4.8.2"
+  },
+  "dependencies": {
+    "node-fetch": "^3.2.10",
+    "rimraf": "^3.0.2",
+    "rxjs": "^7.5.6"
+  }
+}
